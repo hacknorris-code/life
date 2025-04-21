@@ -12,7 +12,7 @@
       }
       *{
         image-rendering: crisp-edges;
-        mix-blend-mode: screen;
+        mix-blend-mode: exclusion;
       }
       .main{
         height:100vh;
@@ -27,6 +27,7 @@
     <header></header>
     <nav></nav>
     <main>
+      <canvas class="main" id="white"></canvas>
       <canvas class="main" id="red"></canvas>
       <canvas class="main" id="green"></canvas>
       <canvas class="main" id="blue"></canvas>
@@ -36,9 +37,13 @@
       <script>
         //generate(document.getElementById('main'));
         function main(){
-          console.log("fuck;");
-          let game = new GameOfLife('red', "red",100);
-          game.init();
+          let whiteGame = new GameOfLife('white', "white",100);
+          whiteGame.init();
+          setInterval(() => {
+            whiteGame.updateAndDrawGrid();
+          }, 100);
+          let redGame = new GameOfLife('red', "red",100);
+          redGame.init();
           setInterval(() => {
             game.updateAndDrawGrid();
           }, 100);

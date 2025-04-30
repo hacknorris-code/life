@@ -1,40 +1,35 @@
 class GameOfLife {
-    constructor(canvasId, color, interval) {
+    constructor(canvasId, color = "white", interval, prob = 5, debug = false) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.width = this.canvas.offsetWidth;
         this.height = this.canvas.offsetHeight;
-        this.gridWidth = this.width; // Assuming a 10x10 grid
-        this.gridHeight = this.height;
+        this.gridWidth = this.canvas.offsetWidth; // Assuming a 10x10 grid
+        this.gridHeight = this.canvas.offsetHeight;
         this.grid = Array.from({ length: this.gridHeight }, () => new Array(this.gridWidth).fill(0));
         this.nextGrid = Array.from({ length: this.gridHeight }, () => new Array(this.gridWidth).fill(0));
         this.lastGrid = [];
         this.color = color;
         this.intervalId = null;
-
+        this.prob = prob;
+        this.debug = debug;
         // Set custom interval function
         this._intervalTime = interval;
     }
 
     init() {
+        let seed = 1-(this.prob/10);
         for (let i = 0; i < this.gridHeight; i++) {
             for (let j = 0; j < this.gridWidth; j++) {
-                this.grid[i][j] = Math.random() > 0.5 ? 1 : 0;
+                this.grid[i][j] = Math.random() > seed ? 1 : 0;
             }
         }
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.updateAndDrawGrid();
-
-        // Start the game loop
-        let updateInterval = setInterval(() => this.updateAndDrawGrid(), this._intervalTime);
-        this.intervalId = updateInterval;
-
-        // Stop the interval after a while
-        setTimeout(() => clearInterval(updateInterval), 5000);
     }
 
     updateAndDrawGrid() {
-        console.log('Updating grid...');
+        this.debug && console.log('Updating grid...');
         
         let nextGrid = Array.from(this.grid.map(row => row.slice()));
         
@@ -67,7 +62,7 @@ class GameOfLife {
         
         this.grid = nextGrid;
         
-        console.log('Drawing grid...');
+        this.debug && console.log('Drawing grid...');
         
         // Clear the canvas
         this.ctx.clearRect(0, 0, this.width, this.height);
@@ -84,7 +79,7 @@ class GameOfLife {
             }
         }
         
-        console.log('Grid updated and drawn!');
+        this.debug && console.log('Grid updated and drawn!');
     }
 
     stop() {

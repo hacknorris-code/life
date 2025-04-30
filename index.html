@@ -37,7 +37,7 @@
       <script>
         //generate(document.getElementById('main'));
         function main(){
-          let whiteGame = new GameOfLife('white', "white",100);
+          let whiteGame = new GameOfLife('white', "white",100,2);
           whiteGame.init();
           setInterval(() => {
             whiteGame.updateAndDrawGrid();

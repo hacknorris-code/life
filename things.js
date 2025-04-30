@@ -1,5 +1,5 @@
 class GameOfLife {
-    constructor(canvasId, color = "white", interval, prob = 5, debug = false) {
+    constructor(canvasId, color = "black", prob = 5, debug = false) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.width = this.canvas.offsetWidth;
@@ -10,11 +10,8 @@ class GameOfLife {
         this.nextGrid = Array.from({ length: this.gridHeight }, () => new Array(this.gridWidth).fill(0));
         this.lastGrid = [];
         this.color = color;
-        this.intervalId = null;
         this.prob = prob;
         this.debug = debug;
-        // Set custom interval function
-        this._intervalTime = interval;
     }
 
     init() {
@@ -80,9 +77,5 @@ class GameOfLife {
         }
         
         this.debug && console.log('Grid updated and drawn!');
-    }
-
-    stop() {
-        clearInterval(this.intervalId);
     }
 }
